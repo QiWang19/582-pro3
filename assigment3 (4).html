@@ -19,7 +19,7 @@
                 fill: none;
             }
             .bubble {
-                fill-opacity: 0.5;
+                fill-opacity: 1;
             }
         </style>
         <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> 
@@ -112,9 +112,18 @@
                 var newNumber = Math.random() * 100;  
                 bdataset.push(newNumber);             
                 }
+				
+				var mark = [0,1,2,3,4,5,6,7,8,9];
+                var bmarkorder = [];
+                for (var i = 0, l=2; i < l; i++) {
+                        var j = Math.floor(Math.random() * mark.length);
+                        bmarkorder[i]=mark[j];
+                        mark.splice(j, 1);
+                    }
+                    console.log(bmarkorder);
 
-                if (bdataset[1]>=bdataset[0]) bTrueRes = 100 * bdataset[0]/bdataset[1];
-				else bTrueRes = 100 * bdataset[1]/bdataset[0];
+               if (bdataset[bmarkorder[1]]>=bdataset[bmarkorder[0]]) bTrueRes = 100 * bdataset[bmarkorder[0]]/bdataset[bmarkorder[1]];
+				else bTrueRes = 100 * bdataset[bmarkorder[1]]/bdataset[bmarkorder[0]];
 				console.log(bTrueRes);
 
                 content[nextTime] = new Array();
@@ -162,6 +171,13 @@
                     .enter()
                     .append("rect")
                     .attr("class","MyRect")
+					.attr("stroke", "black")
+					.attr("stroke-width", 2)
+                    .attr("class","MyRect")
+					.attr("fill",function(d,i){
+                        if (i==bmarkorder[1]|| i== bmarkorder[0]) return 'black';
+                        else return 'none';
+                    })
                     .attr("transform","translate(" + padding.left + "," + padding.top + ")")
                     .attr("x", function(d,i){
                         return xScale(i) + rectPadding/2;
@@ -173,8 +189,8 @@
                     .attr("height", function(d){
                         return height - padding.top - padding.bottom - yScale(d);
                     });
-                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/10).attr("r", 10).attr("fill","red");
-                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/5).attr("r", 10).attr("fill","red");
+                    //svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/10).attr("r", 10).attr("fill","red");
+                    //svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/5).attr("r", 10).attr("fill","red");
 
                 //添加x轴
                 svg.append("g")
@@ -203,10 +219,20 @@
                 var newNumber = Math.random() * 100;  
                 pdataset.push(newNumber);             
                 }
+				
+				var mark = [0,1,2,3,4,5,6,7,8,9];
+                var pmarkorder = [];
+                for (var i = 0, l=2; i < l; i++) {
+                        var j = Math.floor(Math.random() * mark.length);
+                        pmarkorder[i]=mark[j];
+                        mark.splice(j, 1);
+                    }
+                    console.log(pmarkorder);
 
-                if (pdataset[2]>=pdataset[3]) pTrueRes = 100 * pdataset[3]/pdataset[2];
-				else pTrueRes = 100 * pdataset[2]/pdataset[3];
+                if (pdataset[pmarkorder[1]]>=pdataset[pmarkorder[0]]) pTrueRes = 100 * pdataset[pmarkorder[0]]/pdataset[pmarkorder[1]];
+				else pTrueRes = 100 * pdataset[pmarkorder[1]]/pdataset[pmarkorder[0]];
 				console.log(pTrueRes);
+				
                 content[nextTime] = new Array();
                 content[nextTime] = [nextTime, "Pie Chart", pTrueRes];
 				
@@ -240,10 +266,11 @@
                             .attr("transform","translate("+ (width/2) +","+ (width/2) +")");
                             
                 arcs.append("path")
+                    .attr("stroke", "grey")
+					.attr("stroke-width", 2)
                     .attr("fill",function(d,i){
-                        if (i==2) return 'black';
-                        if (i==3) return 'black';
-                        return color(i);
+                        if (i==pmarkorder[1]|| i== pmarkorder[0]) return 'black';
+                        else return 'none';
                     })
                     .attr("d",function(d){
                         return arc(d);
@@ -265,9 +292,18 @@
                 var newNumber = Math.random() * 100;  
                 sdataset.push(newNumber);             
                 }
+				
+				var mark = [0,1,2,3,4,5,6,7,8,9];
+                var smarkorder = [];
+                for (var i = 0, l=2; i < l; i++) {
+                        var j = Math.floor(Math.random() * mark.length);
+                        smarkorder[i]=mark[j];
+                        mark.splice(j, 1);
+                    }
+                console.log(smarkorder);
 
-                if (sdataset[2]>=sdataset[3]) sTrueRes = 100 * sdataset[3]/sdataset[2];
-				else sTrueRes = 100 * sdataset[2]/sdataset[3];
+				if (sdataset[smarkorder[1]]>=sdataset[smarkorder[0]]) sTrueRes = 100 * sdataset[smarkorder[0]]/sdataset[smarkorder[1]];
+				else sTrueRes = 100 * sdataset[smarkorder[1]]/sdataset[smarkorder[0]];
 				console.log(sTrueRes);
 
                 content[nextTime] = new Array();
@@ -312,9 +348,13 @@
 								.enter()
 								.append('circle')
 								.attr('class', 'bubble')
+								.attr("stroke", "black")
+								.attr("stroke-width", 2)
+								.attr('class', 'bubble')
 								.attr('fill',function(d,i) {
-									if (i==2) return 'red';
-									if (i==3) return 'red';
+									if (i==smarkorder[1]|| i== smarkorder[0]) return 'black';
+									else return 'none';
+									
 								})
 								.attr('cx', function(d,i) {
 									return xScale(i+1)+50;
@@ -445,7 +485,7 @@
                     d3.select("svg").remove();
                     
                     drawChart();
-                    javascript:scrollTo(0,260);
+                    javascript:scrollTo(0,scroll);
                     console.log(content);
                 }
 
