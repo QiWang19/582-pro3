@@ -376,7 +376,7 @@
 				//document.getElementById("ans0").value="";
 				 
                 nextTime = nextTime + 1;
-                if (nextTime == 3) {
+                if (nextTime == 60) {
                     javascript:scrollTo(0,scroll);
                     window.alert("Congrat, you have finished!");
 
@@ -479,7 +479,7 @@
             pom.setAttribute('download', 'Experiment_Result.csv');
             pom.click();
 
-                } else if (nextTime < 3 ) {
+                } else if (nextTime < 60 ) {
                     //nextTime = nextTime + 1;
                     document.getElementById("ans0").value="";
                     d3.select("svg").remove();
