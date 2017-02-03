@@ -71,7 +71,6 @@
              function startFunction() {
                 //s : [1,2,3];
                 drawChart();
-                document.getElementById("count").innerHTML = (nextTime) + "/ 60";
                 //Barchart();
                 javascript:scrollTo(0,scroll);
             } 
@@ -104,9 +103,7 @@
             function Barchart() {
                 document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
                                                             "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
-                                                           // "<fieldset style='text-align: center'>" + 
                                                             "<button onclick='next.Next();'>next</button>" +
-                                                           // "</fieldset>" +
                                                              "<br><br><br><br>";
 
                 var bdataset = [];                        
@@ -122,15 +119,15 @@
                         bmarkorder[i]=mark[j];
                         mark.splice(j, 1);
                     }
-                    console.log(bmarkorder);
+                    //console.log(bmarkorder);
 
                if (bdataset[bmarkorder[1]]>=bdataset[bmarkorder[0]]) bTrueRes = 100 * bdataset[bmarkorder[0]]/bdataset[bmarkorder[1]];
 				else bTrueRes = 100 * bdataset[bmarkorder[1]]/bdataset[bmarkorder[0]];
-				console.log(bTrueRes);
+				//console.log(bTrueRes);
 
                 content[nextTime] = new Array();
 				content[nextTime] = [nextTime, "Bar Chart", bTrueRes];
-                console.log(content);
+                //console.log(content);
 
                 var width = 400;
                 var height = 400;
@@ -176,10 +173,7 @@
 					.attr("stroke", "black")
 					.attr("stroke-width", 2)
                     .attr("class","MyRect")
-					.attr("fill",function(d,i){
-                        if (i==bmarkorder[1]|| i== bmarkorder[0]) return 'black';
-                        else return 'none';
-                    })
+					.attr("fill",'none')
                     .attr("transform","translate(" + padding.left + "," + padding.top + ")")
                     .attr("x", function(d,i){
                         return xScale(i) + rectPadding/2;
@@ -191,8 +185,10 @@
                     .attr("height", function(d){
                         return height - padding.top - padding.bottom - yScale(d);
                     });
-                    //svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/10).attr("r", 10).attr("fill","red");
-                    //svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/5).attr("r", 10).attr("fill","red");
+					var p1 = padding.left+2+(xScale.rangeBand() - rectPadding +4)*bmarkorder[0]+(xScale.rangeBand() - rectPadding)/2;
+					var p2 = padding.left+2+(xScale.rangeBand() - rectPadding +4)*bmarkorder[1]+(xScale.rangeBand() - rectPadding)/2;
+                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", p1 ).attr("r", 5).attr("fill","black");
+                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", p2).attr("r", 5).attr("fill","black");
 
                 //添加x轴
                 svg.append("g")
@@ -210,10 +206,8 @@
             }
             function Piechart() {
                 document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
-                                                            "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();'>" +
-                                                           // "<fieldset style='text-align: center'>" + 
+                                                            "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
                                                             "<button onclick='next.Next();'>next</button>" +
-                                                           // "</fieldset>" +
                                                              "<br><br><br><br>";
 
                 var pdataset = [];                        
@@ -229,11 +223,11 @@
                         pmarkorder[i]=mark[j];
                         mark.splice(j, 1);
                     }
-                    console.log(pmarkorder);
+                    //console.log(pmarkorder);
 
                 if (pdataset[pmarkorder[1]]>=pdataset[pmarkorder[0]]) pTrueRes = 100 * pdataset[pmarkorder[0]]/pdataset[pmarkorder[1]];
 				else pTrueRes = 100 * pdataset[pmarkorder[1]]/pdataset[pmarkorder[0]];
-				console.log(pTrueRes);
+				//console.log(pTrueRes);
 				
                 content[nextTime] = new Array();
                 content[nextTime] = [nextTime, "Pie Chart", pTrueRes];
@@ -258,9 +252,13 @@
                 var arc = d3.svg.arc()	//弧生成器
                             .innerRadius(innerRadius)	//设置内半径
                             .outerRadius(outerRadius);	//设置外半径
+				
+				var labelArc = d3.svg.arc()
+							.outerRadius(outerRadius - 5)
+							.innerRadius(outerRadius - 20);
                 
                 var color = d3.scale.category10();
-		
+				//console.log(pmarkorder);
                 var arcs = svg1.selectAll("g")
                             .data(piedata)
                             .enter()
@@ -270,24 +268,28 @@
                 arcs.append("path")
                     .attr("stroke", "grey")
 					.attr("stroke-width", 2)
-                    .attr("fill",function(d,i){
-                        if (i==pmarkorder[1]|| i== pmarkorder[0]) return 'black';
-                        else return 'none';
-                    })
+					.attr("fill", 'none')
                     .attr("d",function(d){
                         return arc(d);
                     });
+					
+				arcs.append("circle")
+					.attr("transform", function(d) { 
+						return "translate(" + labelArc.centroid(d)[0] + "," + labelArc.centroid(d)[1] + ")"; })
+					.attr("r", function(d,i) { 
+						if (i == pmarkorder[1]|| i == pmarkorder[0]) return 5;
+						else return 0;
+					})
+					.attr("fill", 'black');
 		
-                    console.log(pdataset);
-                    console.log(piedata);     
+                    //console.log(pdataset);
+                    //console.log(piedata);     
 
             }
             function Scatterchart() {
                  document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
                                                             "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
-                                                           // "<fieldset style='text-align: center'>" + 
                                                             "<button onclick='next.Next();'>next</button>" +
-                                                           // "</fieldset>" +
                                                              "<br><br><br><br>";
                 var sdataset = [];                        
                 for (var i = 0; i < 10; i++) {           
@@ -302,11 +304,11 @@
                         smarkorder[i]=mark[j];
                         mark.splice(j, 1);
                     }
-                console.log(smarkorder);
+                //console.log(smarkorder);
 
 				if (sdataset[smarkorder[1]]>=sdataset[smarkorder[0]]) sTrueRes = 100 * sdataset[smarkorder[0]]/sdataset[smarkorder[1]];
 				else sTrueRes = 100 * sdataset[smarkorder[1]]/sdataset[smarkorder[0]];
-				console.log(sTrueRes);
+				//console.log(sTrueRes);
 
                 content[nextTime] = new Array();
 				content[nextTime] = [nextTime, "Scatter Plot", sTrueRes];
@@ -320,7 +322,7 @@
                     
 				
 						var xScale = d3.scale.linear()
-								.domain([1, 10])
+								.domain([0, 9])
 								.range([0, width - padding.left - padding.right]);
 						var yScale = d3.scale.linear()
 								.domain([0, 100])
@@ -353,18 +355,21 @@
 								.attr("stroke", "black")
 								.attr("stroke-width", 2)
 								.attr('class', 'bubble')
-								.attr('fill',function(d,i) {
-									if (i==smarkorder[1]|| i== smarkorder[0]) return 'black';
-									else return 'none';
-									
-								})
+								.attr('fill','none')
 								.attr('cx', function(d,i) {
-									return xScale(i+1)+50;
+									return xScale(i)+50;
 								})
 								.attr('cy', function(d) {
 									return yScale(d)+50;
 								})
 								.attr('r', 10);
+						var p1x = padding.left+xScale(smarkorder[0]);
+						var p2x = padding.left+xScale(smarkorder[1]);
+						var p1y = padding.top+yScale(sdataset[smarkorder[0]]);
+						var p2y = padding.top+yScale(sdataset[smarkorder[1]]);
+						svg2.append("circle").attr("cy",p1y).attr("cx", p1x ).attr("r", 5).attr("fill","black");
+						svg2.append("circle").attr("cy",p2y).attr("cx", p2x).attr("r", 5).attr("fill","black");
+
             }
        
 		var ans=[];
