@@ -1,0 +1,805 @@
+<html>
+    <head>
+        <title>Expriment</title>
+        <style>
+            fieldset {
+                background: white;
+                border: white
+            }
+			
+            .container {
+                margin: 30px auto;
+                width: 600px;
+                height: 300px;
+                border: 1px solid #000;
+            }
+            .axis path,
+            .axis line {
+                stroke: #000;
+                fill: none;
+            }
+            .bubble {
+                fill-opacity: 0.5;
+            }
+        </style>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> 
+        
+    </head>
+    <body>
+        <h2 style="text-align:center"> In this experiment,<br>
+         you are asked to judge<br>
+          what is the percent of a smaller value to a large value in serveral charts.<br>
+          We won't record any information from you except your answers.<br>
+          Click the "agree" button to begin.<br>
+          Thank you!</h1><br> 
+
+        <form>
+            <fieldset style="text-align: center">
+                <label for="partipantID" style="text-align: center">Your partipantID : 
+                    </label><textarea  id="pID"></textarea>
+                    <button onclick="startFunction()">Start</button>
+                    <br><br><br><br><br><br><br><br><br><br><br><br>
+                <p id="text1" align = "center"></p><br>
+                <!--<label for="ans0">Your answer:</label> 
+                    <input type="number" id="ans0" required = "required" > <br><br><br><br>-->
+                <p id = "ans" align = "center"></p><br>
+            </fieldset>
+        </form>
+        
+        <!--<fieldset style="text-align: center">    
+            
+            <button onclick="next.Next();">next</button>
+            
+        </fieldset>-->
+
+        <script>
+                var nextTime = 0; 
+                var bNum = 0;
+                var pNum = 0;
+                var sNum = 0;
+
+                var sample = [1,2,3];
+		    //定义一个数组
+                
+				var bTrueRes = 0;
+				var pTrueRes = 0;
+				var sTrueRes = 0;
+				
+				var content = [];
+				 
+        
+        var chartObject = {
+            
+            Drawchart: function() {
+				
+				var bdataset = [];                        
+                for (var i = 0; i < 10; i++) {           
+                var newNumber = Math.random() * 100;  
+                bdataset.push(newNumber);             
+                }
+				var pdataset = [];                        
+                for (var i = 0; i < 10; i++) {           
+                var newNumber = Math.random() * 100;  
+                pdataset.push(newNumber);             
+                }
+				var sdataset = [];                        
+                for (var i = 0; i < 10; i++) {           
+                var newNumber = Math.random() * 100;  
+                sdataset.push(newNumber);             
+                }
+				
+				
+				if (bdataset[1]>=bdataset[0]) bTrueRes = 100 * bdataset[0]/bdataset[1];
+				else bTrueRes = 100 * bdataset[1]/bdataset[0];
+				console.log(bTrueRes);
+				
+				
+				if (pdataset[2]>=pdataset[3]) pTrueRes = 100 * pdataset[3]/pdataset[2];
+				else pTrueRes = 100 * pdataset[2]/pdataset[3];
+				console.log(pTrueRes);
+				
+				
+				if (sdataset[2]>=sdataset[3]) sTrueRes = 100 * sdataset[3]/sdataset[2];
+				else sTrueRes = 100 * sdataset[2]/sdataset[3];
+				console.log(sTrueRes);
+				
+                var sample = [1,2,3];
+                var order = [];
+                for (var i = 0, l=sample.length; i < l; i++) {
+                        var j = Math.floor(Math.random() * sample.length);
+                        order[i]=sample[j];
+                        sample.splice(j, 1);
+                    }
+                    console.log(order);
+                 
+				 
+				content[3*nextTime] = new Array();
+				content[3*nextTime] = [3*nextTime+order[0], "Bar Chart", bTrueRes];
+				content[3*nextTime+1] = new Array();
+				content[3*nextTime+1] = [3*nextTime+order[1], "Pie Chart", pTrueRes];
+				content[3*nextTime+2] = new Array();
+				content[3*nextTime+2] = [3*nextTime+order[2], "Scatter Plot", sTrueRes];
+				console.log(content);
+			
+				 
+                var width = 400;
+                var height = 400;
+				
+                //在 body 里添加一个 SVG 画布	
+                var svg = d3.select("#text"+order[0])
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                //画布周边的空白
+                var padding = {left:30, right:30, top:20, bottom:20};
+
+                
+                    
+                //x轴的比例尺
+                var xScale = d3.scale.ordinal()
+                    .domain(d3.range(bdataset.length))
+                    .rangeRoundBands([0, width - padding.left - padding.right]);
+
+                //y轴的比例尺
+                var yScale = d3.scale.linear()
+                    .domain([0,d3.max(bdataset)])
+                    .range([height - padding.top - padding.bottom, 0]);
+
+                //定义x轴
+                var xAxis = d3.svg.axis()
+                    .scale(xScale)
+                    .orient("bottom");
+                    
+                //定义y轴
+                var yAxis = d3.svg.axis()
+                    .scale(yScale)
+					.ticks(0)
+                    .orient("left");
+
+                //矩形之间的空白
+                var rectPadding = 4;
+
+                //添加矩形元素
+                var rects = svg.selectAll(".MyRect")
+                    .data(bdataset)
+                    .enter()
+                    .append("rect")
+                    .attr("class","MyRect")
+                    .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+                    .attr("x", function(d,i){
+                        return xScale(i) + rectPadding/2;
+                    } )
+                    .attr("y",function(d){
+                        return yScale(d);
+                    })
+                    .attr("width", xScale.rangeBand() - rectPadding )
+                    .attr("height", function(d){
+                        return height - padding.top - padding.bottom - yScale(d);
+                    });
+                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/10).attr("r", 10).attr("fill","red");
+                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/5).attr("r", 10).attr("fill","red");
+
+                //添加x轴
+                svg.append("g")
+                    .attr("class","axis")
+                    .attr("transform","translate(" + padding.left + "," + (height - padding.bottom) + ")")
+                    .call(xAxis); 
+                    
+                //添加y轴
+                svg.append("g")
+                    .attr("class","axis")
+                    .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+                    .call(yAxis);
+
+                // PIE CHART 
+                //定义一个数组
+                var width = 400;
+                var height = 400;
+                var svg1 = d3.select("#text"+order[1])
+                            .append("svg")
+                            .attr("width", 400)
+                            .attr("height", 400);
+                
+                var pie = d3.layout.pie();
+
+                var piedata = pie(pdataset);
+                
+                var outerRadius = 150;	//外半径
+                var innerRadius = 0;	//内半径，为0则中间没有空白
+
+                var arc = d3.svg.arc()	//弧生成器
+                            .innerRadius(innerRadius)	//设置内半径
+                            .outerRadius(outerRadius);	//设置外半径
+                
+                var color = d3.scale.category10();
+		
+                var arcs = svg1.selectAll("g")
+                            .data(piedata)
+                            .enter()
+                            .append("g")
+                            .attr("transform","translate("+ (width/2) +","+ (width/2) +")");
+                            
+                arcs.append("path")
+                    .attr("fill",function(d,i){
+                        if (i==2) return 'black';
+                        if (i==3) return 'black';
+                        return color(i);
+                    })
+                    .attr("d",function(d){
+                        return arc(d);
+                    });
+		
+                    console.log(pdataset);
+                    console.log(piedata); 
+                    //scatter chart
+                 var width = 600, height = 300;
+                    var padding = { top: 50, right: 50, bottom: 50, left: 50 };
+                    var svg2 = d3.select("#text"+order[2])
+					.append("svg")
+					.attr("width", width)
+					.attr("height", height);
+                    
+				
+						var xScale = d3.scale.linear()
+								.domain([1, 10])
+								.range([0, width - padding.left - padding.right]);
+						var yScale = d3.scale.linear()
+								.domain([0, 100])
+								.range([height - padding.top - padding.bottom, 0]);
+						var xAxis = d3.svg.axis()
+								.scale(xScale)
+								.ticks(10)
+								.orient('bottom');
+						var yAxis = d3.svg.axis()
+								.scale(yScale)
+								.ticks(0)
+								.orient('left');
+
+						svg2.append('g')
+								.attr('class', 'axis')
+								.attr('transform', 'translate(50,' + (height - 50) + ')')
+								.call(xAxis);
+						
+						svg2.append('g')
+								.attr('class', 'axis')
+								.attr('transform', 'translate(50,50)')
+								.call(yAxis);
+						
+						
+						svg2.selectAll('.bubble')
+								.data(sdataset)
+								.enter()
+								.append('circle')
+								.attr('class', 'bubble')
+								.attr('fill',function(d,i) {
+									if (i==2) return 'red';
+									if (i==3) return 'red';
+								})
+								.attr('cx', function(d,i) {
+									return xScale(i+1)+50;
+								})
+								.attr('cy', function(d) {
+									return yScale(d)+50;
+								})
+								.attr('r', 10);
+                        
+                
+            }
+             };
+
+             function startFunction() {
+                //s : [1,2,3];
+                drawChart();
+                //Barchart();
+                javascript:scrollTo(0,260);
+            } 
+
+            function drawChart() {
+                var i = 0;
+                while (i != 1) {
+                    var max = 100;
+                    var r = parseInt(Math.random()*max);
+                    //console.log(r);
+                    if (r % 3 == 0 && bNum <20) {
+                        Barchart();
+                        i++;
+                        bNum++;
+                    } else if (r % 3 == 1 && pNum < 20) {
+                        Piechart();
+                        i++;
+                        pNum++;
+                    } else if (r % 3 == 2 && sNum < 20) {
+                        Scatterchart();
+                        i++;
+                        sNum++;
+                    } else if(bNum == 20 && pNum == 20 && sNum == 20){
+                        i++;
+                    }
+                }
+                
+            }
+
+            function Barchart() {
+                document.getElementById('ans').innerHTML="<label for='ans0'>Your answer:</label>" +
+                                                            "<input type='number' id='ans0' required = 'required' >" +
+                                                           // "<fieldset style='text-align: center'>" + 
+                                                            "<button onclick='next.Next();'>next</button>" +
+                                                           // "</fieldset>" +
+                                                             "<br><br><br><br>";
+
+                var bdataset = [];                        
+                for (var i = 0; i < 10; i++) {           
+                var newNumber = Math.random() * 100;  
+                bdataset.push(newNumber);             
+                }
+
+                if (bdataset[1]>=bdataset[0]) bTrueRes = 100 * bdataset[0]/bdataset[1];
+				else bTrueRes = 100 * bdataset[1]/bdataset[0];
+				console.log(bTrueRes);
+
+                content[nextTime] = new Array();
+				content[nextTime] = [nextTime, "Bar Chart", bTrueRes];
+                console.log(content);
+
+                var width = 400;
+                var height = 400;
+                //在 body 里添加一个 SVG 画布	
+                var svg = d3.select("#text1")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                //画布周边的空白
+                var padding = {left:30, right:30, top:20, bottom:20};
+                    
+                //x轴的比例尺
+                var xScale = d3.scale.ordinal()
+                    .domain(d3.range(bdataset.length))
+                    .rangeRoundBands([0, width - padding.left - padding.right]);
+
+                //y轴的比例尺
+                var yScale = d3.scale.linear()
+                    .domain([0,d3.max(bdataset)])
+                    .range([height - padding.top - padding.bottom, 0]);
+
+                //定义x轴
+                var xAxis = d3.svg.axis()
+                    .scale(xScale)
+                    .orient("bottom");
+                    
+                //定义y轴
+                var yAxis = d3.svg.axis()
+                    .scale(yScale)
+					.ticks(0)
+                    .orient("left");
+
+                //矩形之间的空白
+                var rectPadding = 4;
+
+                //添加矩形元素
+                var rects = svg.selectAll(".MyRect")
+                    .data(bdataset)
+                    .enter()
+                    .append("rect")
+                    .attr("class","MyRect")
+                    .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+                    .attr("x", function(d,i){
+                        return xScale(i) + rectPadding/2;
+                    } )
+                    .attr("y",function(d){
+                        return yScale(d);
+                    })
+                    .attr("width", xScale.rangeBand() - rectPadding )
+                    .attr("height", function(d){
+                        return height - padding.top - padding.bottom - yScale(d);
+                    });
+                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/10).attr("r", 10).attr("fill","red");
+                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", 12+(width - padding.left - padding.right)/5).attr("r", 10).attr("fill","red");
+
+                //添加x轴
+                svg.append("g")
+                    .attr("class","axis")
+                    .attr("transform","translate(" + padding.left + "," + (height - padding.bottom) + ")")
+                    .call(xAxis); 
+                    
+                //添加y轴
+                svg.append("g")
+                    .attr("class","axis")
+                    .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+                    .call(yAxis);
+
+
+            }
+            function Piechart() {
+                document.getElementById('ans').innerHTML="<label for='ans0'>Your answer:</label>" +
+                                                            "<input type='number' id='ans0' required = 'required' >" +
+                                                           // "<fieldset style='text-align: center'>" + 
+                                                            "<button onclick='next.Next();'>next</button>" +
+                                                           // "</fieldset>" +
+                                                             "<br><br><br><br>";
+
+                var pdataset = [];                        
+                for (var i = 0; i < 10; i++) {           
+                var newNumber = Math.random() * 100;  
+                pdataset.push(newNumber);             
+                }
+
+                if (pdataset[2]>=pdataset[3]) pTrueRes = 100 * pdataset[3]/pdataset[2];
+				else pTrueRes = 100 * pdataset[2]/pdataset[3];
+				console.log(pTrueRes);
+                content[nextTime] = new Array();
+                content[nextTime] = [nextTime, "Pie Chart", pTrueRes];
+				
+
+                // PIE CHART 
+                //定义一个数组
+                var width = 400;
+                var height = 400;
+                var svg1 = d3.select("#text1")
+                            .append("svg")
+                            .attr("width", 400)
+                            .attr("height", 400);
+                
+                var pie = d3.layout.pie();
+
+                var piedata = pie(pdataset);
+                
+                var outerRadius = 150;	//外半径
+                var innerRadius = 0;	//内半径，为0则中间没有空白
+
+                var arc = d3.svg.arc()	//弧生成器
+                            .innerRadius(innerRadius)	//设置内半径
+                            .outerRadius(outerRadius);	//设置外半径
+                
+                var color = d3.scale.category10();
+		
+                var arcs = svg1.selectAll("g")
+                            .data(piedata)
+                            .enter()
+                            .append("g")
+                            .attr("transform","translate("+ (width/2) +","+ (width/2) +")");
+                            
+                arcs.append("path")
+                    .attr("fill",function(d,i){
+                        if (i==2) return 'black';
+                        if (i==3) return 'black';
+                        return color(i);
+                    })
+                    .attr("d",function(d){
+                        return arc(d);
+                    });
+		
+                    console.log(pdataset);
+                    console.log(piedata);     
+
+            }
+            function Scatterchart() {
+                 document.getElementById('ans').innerHTML="<label for='ans0'>Your answer:</label>" +
+                                                            "<input type='number' id='ans0' required = 'required' >" +
+                                                           // "<fieldset style='text-align: center'>" + 
+                                                            "<button onclick='next.Next();'>next</button>" +
+                                                           // "</fieldset>" +
+                                                             "<br><br><br><br>";
+                var sdataset = [];                        
+                for (var i = 0; i < 10; i++) {           
+                var newNumber = Math.random() * 100;  
+                sdataset.push(newNumber);             
+                }
+
+                if (sdataset[2]>=sdataset[3]) sTrueRes = 100 * sdataset[3]/sdataset[2];
+				else sTrueRes = 100 * sdataset[2]/sdataset[3];
+				console.log(sTrueRes);
+
+                content[nextTime] = new Array();
+				content[nextTime] = [nextTime, "Scatter Plot", sTrueRes];
+
+                var width = 600, height = 400;
+                    var padding = { top: 50, right: 50, bottom: 50, left: 50 };
+                    var svg2 = d3.select("#text1")
+					.append("svg")
+					.attr("width", width)
+					.attr("height", height);
+                    
+				
+						var xScale = d3.scale.linear()
+								.domain([1, 10])
+								.range([0, width - padding.left - padding.right]);
+						var yScale = d3.scale.linear()
+								.domain([0, 100])
+								.range([height - padding.top - padding.bottom, 0]);
+						var xAxis = d3.svg.axis()
+								.scale(xScale)
+								.ticks(10)
+								.orient('bottom');
+						var yAxis = d3.svg.axis()
+								.scale(yScale)
+								.ticks(0)
+								.orient('left');
+
+						svg2.append('g')
+								.attr('class', 'axis')
+								.attr('transform', 'translate(50,' + (height - 50) + ')')
+								.call(xAxis);
+						
+						svg2.append('g')
+								.attr('class', 'axis')
+								.attr('transform', 'translate(50,50)')
+								.call(yAxis);
+						
+						
+						svg2.selectAll('.bubble')
+								.data(sdataset)
+								.enter()
+								.append('circle')
+								.attr('class', 'bubble')
+								.attr('fill',function(d,i) {
+									if (i==2) return 'red';
+									if (i==3) return 'red';
+								})
+								.attr('cx', function(d,i) {
+									return xScale(i+1)+50;
+								})
+								.attr('cy', function(d) {
+									return yScale(d)+50;
+								})
+								.attr('r', 10);
+            }
+       
+		var ans=[];
+        var next = {
+            Next: function() {
+			
+				var pID = document.getElementById("pID").value;
+                var ans0 = document.getElementById("ans0").value;
+                // var ans1 = document.getElementById("ans1").value;
+                // var ans2 = document.getElementById("ans2").value;
+                ans.push(ans0);
+				// ans.push(ans1);
+				// ans.push(ans2);
+				console.log(ans);
+                 
+				document.getElementById("ans0").value="";
+				// document.getElementById("ans1").value="";
+				// document.getElementById("ans2").value="";
+
+				 
+                nextTime = nextTime + 1;
+                if (nextTime == 3) {
+                    javascript:scrollTo(0,410);
+                    window.alert("h")
+
+                    var table=document.createElement("table");
+                document.body.appendChild(table);
+                table.border=1;
+                table.width=300;
+                table.align = "center";
+                
+                table.createCaption().innerHTML="Experiment Result";
+                
+                var thead=table.createTHead();
+                var tr1=thead.insertRow(0);
+               
+				
+                var th1=document.createElement("th");
+                tr1.appendChild(th1);
+                th1.innerHTML="Partipant ID";
+                var th2=document.createElement("th");
+                tr1.appendChild(th2);
+                th2.innerHTML="TrialNum";
+                var th3=document.createElement("th");
+                tr1.appendChild(th3);
+                th3.innerHTML="Vis";
+                var th4=document.createElement("th");
+                tr1.appendChild(th4);
+                th4.innerHTML="TruePercent";
+                var th5=document.createElement("th");
+                tr1.appendChild(th5);
+                th5.innerHTML="ReportedPercent";
+                
+                var tbody=document.createElement("tbody");
+                table.appendChild(tbody);
+               
+				var cnt = 0;
+				while(cnt<ans.length){
+				var tr2=tbody.insertRow(cnt);
+                var td1=tr2.insertCell(0);
+                td1.innerHTML=pID;
+                var td2=tr2.insertCell(1);
+				var pos1 = 0;
+				for (var i = 0;i<content.length;i++){
+				if (content[i][0]==cnt+1) pos1 = i;
+				}
+                td2.innerHTML=content[pos1][0];
+                var td3=tr2.insertCell(2);
+                td3.innerHTML=content[pos1][1];
+                var td4=tr2.insertCell(3);
+                td4.innerHTML=content[pos1][2];
+                var td5=tr2.insertCell(4);
+                td5.innerHTML=ans[cnt];
+				cnt++;
+				}
+			   
+
+                function tableToArray(table) {
+                    var result = []
+                    var rows = table.rows;
+                    var cells, t;
+
+                    // Iterate over rows
+                    for (var i=0, iLen=rows.length; i<iLen; i++) {
+                        cells = rows[i].cells;
+                        t = [];
+
+                        // Iterate over cells
+                        for (var j=0, jLen=cells.length; j<jLen; j++) {
+                        t.push(cells[j].textContent);
+                        }
+                        result.push(t);
+                    }
+                    return result; 
+            }
+
+	var con = tableToArray(table);
+	console.log(con);
+
+    var finalVal = '';
+
+    for (var i = 0; i < con.length; i++) {
+        var value = con[i];
+
+    for (var j = 0; j < value.length; j++) {
+        var innerValue =  value[j]===null?'':value[j].toString();
+        var result = innerValue.replace(/"/g, '""');
+        if (result.search(/("|,|\n)/g) >= 0)
+            result = '"' + result + '"';
+        if (j > 0)
+            finalVal += ',';
+        finalVal += result;
+    }
+
+    finalVal += '\n';
+}
+
+console.log(finalVal);
+
+var pom = document.createElement('a');
+pom.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(finalVal));
+pom.setAttribute('download', 'Experiment_Result.csv');
+pom.click();
+
+                    
+
+                } else if (nextTime < 3 ) {
+                    //nextTime = nextTime + 1;
+                    
+                    d3.select("svg").remove();
+                    
+                    drawChart();
+                    javascript:scrollTo(0,260);
+                    console.log(content);
+                }
+                
+              //  if (nextTime < 3) {
+                   // for (var i = 0; i< 3; i++) {
+                   //     d3.select("svg").remove();
+                   // }
+                   // drawChart();
+                   // javascript:scrollTo(0,260);
+              //  }
+            //     if (nextTime==3){
+			// 	window.alert("Congrat, you have finished!");
+            //     var table=document.createElement("table");
+            //     document.body.appendChild(table);
+            //     table.border=1;
+            //     table.width=300;
+            //     table.align = "center";
+                
+            //     table.createCaption().innerHTML="Experiment Result";
+                
+            //     var thead=table.createTHead();
+            //     var tr1=thead.insertRow(0);
+               
+				
+            //     var th1=document.createElement("th");
+            //     tr1.appendChild(th1);
+            //     th1.innerHTML="Partipant ID";
+            //     var th2=document.createElement("th");
+            //     tr1.appendChild(th2);
+            //     th2.innerHTML="TrialNum";
+            //     var th3=document.createElement("th");
+            //     tr1.appendChild(th3);
+            //     th3.innerHTML="Vis";
+            //     var th4=document.createElement("th");
+            //     tr1.appendChild(th4);
+            //     th4.innerHTML="TruePercent";
+            //     var th5=document.createElement("th");
+            //     tr1.appendChild(th5);
+            //     th5.innerHTML="ReportedPercent";
+                
+            //     var tbody=document.createElement("tbody");
+            //     table.appendChild(tbody);
+               
+			// 	var cnt = 0;
+			// 	while(cnt<ans.length){
+			// 	var tr2=tbody.insertRow(cnt);
+            //     var td1=tr2.insertCell(0);
+            //     td1.innerHTML=pID;
+            //     var td2=tr2.insertCell(1);
+			// 	var pos1 = 0;
+			// 	for (var i = 0;i<content.length;i++){
+			// 	if (content[i][0]==cnt+1) pos1 = i;
+			// 	}
+            //     td2.innerHTML=content[pos1][0];
+            //     var td3=tr2.insertCell(2);
+            //     td3.innerHTML=content[pos1][1];
+            //     var td4=tr2.insertCell(3);
+            //     td4.innerHTML=content[pos1][2];
+            //     var td5=tr2.insertCell(4);
+            //     td5.innerHTML=ans[cnt];
+			// 	cnt++;
+			// 	}
+			   
+
+            //     function tableToArray(table) {
+            //         var result = []
+            //         var rows = table.rows;
+            //         var cells, t;
+
+            //         // Iterate over rows
+            //         for (var i=0, iLen=rows.length; i<iLen; i++) {
+            //             cells = rows[i].cells;
+            //             t = [];
+
+            //             // Iterate over cells
+            //             for (var j=0, jLen=cells.length; j<jLen; j++) {
+            //             t.push(cells[j].textContent);
+            //             }
+            //             result.push(t);
+            //         }
+            //         return result; 
+            // }
+
+        
+       
+        
+
+// 	var con = tableToArray(table);
+// 	console.log(con);
+
+//     var finalVal = '';
+
+//     for (var i = 0; i < con.length; i++) {
+//         var value = con[i];
+
+//     for (var j = 0; j < value.length; j++) {
+//         var innerValue =  value[j]===null?'':value[j].toString();
+//         var result = innerValue.replace(/"/g, '""');
+//         if (result.search(/("|,|\n)/g) >= 0)
+//             result = '"' + result + '"';
+//         if (j > 0)
+//             finalVal += ',';
+//         finalVal += result;
+//     }
+
+//     finalVal += '\n';
+// }
+
+// console.log(finalVal);
+
+// var pom = document.createElement('a');
+// pom.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(finalVal));
+// pom.setAttribute('download', 'Experiment_Result.csv');
+// pom.click();
+
+//  }
+ }
+        }
+        
+        //window.onload = function() {Barchart()}
+        </script>
+        <br>
+        
+        
+    </body>
+</html>
