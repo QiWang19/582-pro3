@@ -43,6 +43,7 @@
                 <!--<label for="ans0">Your answer:</label> 
                     <input type="number" id="ans0" required = "required" > <br><br><br><br>-->
                 <p id = "ans" align = "center"></p><br>
+                <p id = "count" align = "center"></p>
             </fieldset>
         </form>
         
@@ -70,6 +71,7 @@
              function startFunction() {
                 //s : [1,2,3];
                 drawChart();
+                document.getElementById("count").innerHTML = (nextTime) + "/ 60";
                 //Barchart();
                 javascript:scrollTo(0,scroll);
             } 
@@ -100,8 +102,8 @@
             }
 
             function Barchart() {
-                document.getElementById('ans').innerHTML="<label for='ans0'>Your answer:</label>" +
-                                                            "<input type='number' id='ans0' required = 'required' >" +
+                document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
+                                                            "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
                                                            // "<fieldset style='text-align: center'>" + 
                                                             "<button onclick='next.Next();'>next</button>" +
                                                            // "</fieldset>" +
@@ -207,8 +209,8 @@
 
             }
             function Piechart() {
-                document.getElementById('ans').innerHTML="<label for='ans0'>Your answer:</label>" +
-                                                            "<input type='number' id='ans0' required = 'required' >" +
+                document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
+                                                            "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();'>" +
                                                            // "<fieldset style='text-align: center'>" + 
                                                             "<button onclick='next.Next();'>next</button>" +
                                                            // "</fieldset>" +
@@ -281,8 +283,8 @@
 
             }
             function Scatterchart() {
-                 document.getElementById('ans').innerHTML="<label for='ans0'>Your answer:</label>" +
-                                                            "<input type='number' id='ans0' required = 'required' >" +
+                 document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
+                                                            "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
                                                            // "<fieldset style='text-align: center'>" + 
                                                             "<button onclick='next.Next();'>next</button>" +
                                                            // "</fieldset>" +
@@ -368,128 +370,132 @@
 		var ans=[];
         var next = {
             Next: function() {
-			
+                document.getElementById("count").innerHTML = (nextTime + 1) + "/ 60";
 				var pID = document.getElementById("pID").value;
                 var ans0 = document.getElementById("ans0").value;
-                ans.push(ans0);
-				console.log(ans);
-				//document.getElementById("ans0").value="";
-				 
-                nextTime = nextTime + 1;
-                if (nextTime == 60) {
-                    javascript:scrollTo(0,scroll);
-                    window.alert("Congrat, you have finished!");
+                if (ans0 < 0 || ans0 > 100 ||ans0 == "") {
+                    document.getElementById("ans0").value = "";
+                } else {
+                                    ans.push(ans0);
+                                    console.log(ans);
+                                    //document.getElementById("ans0").value="";
+                                    
+                                    nextTime = nextTime + 1;
+                                    if (nextTime == 60) {
+                                        javascript:scrollTo(0,scroll);
+                                        window.alert("Congrat, you have finished!");
+                                    
+                                        var table=document.createElement("table");
+                                        document.body.appendChild(table);
+                                        table.border=1;
+                                        table.width=300;
+                                        table.align = "center";
+                                    
+                                        table.createCaption().innerHTML="Experiment Result";
+                                        
+                                        var thead=table.createTHead();
+                                        var tr1=thead.insertRow(0);
+                                    
+                                        
+                                        var th1=document.createElement("th");
+                                        tr1.appendChild(th1);
+                                        th1.innerHTML="Partipant ID";
+                                        var th2=document.createElement("th");
+                                        tr1.appendChild(th2);
+                                        th2.innerHTML="TrialNum";
+                                        var th3=document.createElement("th");
+                                        tr1.appendChild(th3);
+                                        th3.innerHTML="Vis";
+                                        var th4=document.createElement("th");
+                                        tr1.appendChild(th4);
+                                        th4.innerHTML="TruePercent";
+                                        var th5=document.createElement("th");
+                                        tr1.appendChild(th5);
+                                        th5.innerHTML="ReportedPercent";
+                                        
+                                        var tbody=document.createElement("tbody");
+                                        table.appendChild(tbody);
+                                    
+                                        var cnt = 0;
+                                        while(cnt<ans.length){
+                                        var tr2=tbody.insertRow(cnt);
+                                        var td1=tr2.insertCell(0);
+                                        td1.innerHTML=pID;
+                                        var td2=tr2.insertCell(1);
+                                        var pos1 = 0;
+                                        for (var i = 0;i<content.length;i++){
+                                        if (content[i][0]==cnt) pos1 = i;
+                                        }
+                                        td2.innerHTML=content[pos1][0];
+                                        var td3=tr2.insertCell(2);
+                                        td3.innerHTML=content[pos1][1];
+                                        var td4=tr2.insertCell(3);
+                                        td4.innerHTML=content[pos1][2];
+                                        var td5=tr2.insertCell(4);
+                                        td5.innerHTML=ans[cnt];
+                                        cnt++;
+                                        }
+                                
 
-                    var table=document.createElement("table");
-                    document.body.appendChild(table);
-                    table.border=1;
-                    table.width=300;
-                    table.align = "center";
-                
-                    table.createCaption().innerHTML="Experiment Result";
-                    
-                    var thead=table.createTHead();
-                    var tr1=thead.insertRow(0);
-                
-                    
-                    var th1=document.createElement("th");
-                    tr1.appendChild(th1);
-                    th1.innerHTML="Partipant ID";
-                    var th2=document.createElement("th");
-                    tr1.appendChild(th2);
-                    th2.innerHTML="TrialNum";
-                    var th3=document.createElement("th");
-                    tr1.appendChild(th3);
-                    th3.innerHTML="Vis";
-                    var th4=document.createElement("th");
-                    tr1.appendChild(th4);
-                    th4.innerHTML="TruePercent";
-                    var th5=document.createElement("th");
-                    tr1.appendChild(th5);
-                    th5.innerHTML="ReportedPercent";
-                    
-                    var tbody=document.createElement("tbody");
-                    table.appendChild(tbody);
-                
-                    var cnt = 0;
-                    while(cnt<ans.length){
-                    var tr2=tbody.insertRow(cnt);
-                    var td1=tr2.insertCell(0);
-                    td1.innerHTML=pID;
-                    var td2=tr2.insertCell(1);
-                    var pos1 = 0;
-                    for (var i = 0;i<content.length;i++){
-                    if (content[i][0]==cnt) pos1 = i;
+                                        function tableToArray(table) {
+                                            var result = []
+                                            var rows = table.rows;
+                                            var cells, t;
+
+                                            // Iterate over rows
+                                            for (var i=0, iLen=rows.length; i<iLen; i++) {
+                                                cells = rows[i].cells;
+                                                t = [];
+
+                                                // Iterate over cells
+                                                for (var j=0, jLen=cells.length; j<jLen; j++) {
+                                                t.push(cells[j].textContent);
+                                                }
+                                                result.push(t);
+                                            }
+                                            return result; 
+                                    }
+
+                                    var con = tableToArray(table);
+                                    console.log(con);
+
+                                    var finalVal = '';
+
+                                    for (var i = 0; i < con.length; i++) {
+                                        var value = con[i];
+
+                                    for (var j = 0; j < value.length; j++) {
+                                        var innerValue =  value[j]===null?'':value[j].toString();
+                                        var result = innerValue.replace(/"/g, '""');
+                                        if (result.search(/("|,|\n)/g) >= 0)
+                                            result = '"' + result + '"';
+                                        if (j > 0)
+                                            finalVal += ',';
+                                        finalVal += result;
+                                    }
+
+                                    finalVal += '\n';
+                                }
+
+                                console.log(finalVal);
+
+                                var pom = document.createElement('a');
+                                pom.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(finalVal));
+                                pom.setAttribute('download', 'Experiment_Result.csv');
+                                pom.click();
+
+                                    } else if (nextTime < 60 ) {
+                                        //nextTime = nextTime + 1;
+                                        document.getElementById("ans0").value="";
+                                        
+                                        d3.select("svg").remove();
+                                        
+                                        drawChart();
+                                        javascript:scrollTo(0,scroll);
+                                        console.log(content);
+                                    }
                     }
-                    td2.innerHTML=content[pos1][0];
-                    var td3=tr2.insertCell(2);
-                    td3.innerHTML=content[pos1][1];
-                    var td4=tr2.insertCell(3);
-                    td4.innerHTML=content[pos1][2];
-                    var td5=tr2.insertCell(4);
-                    td5.innerHTML=ans[cnt];
-                    cnt++;
-                    }
-			   
-
-                    function tableToArray(table) {
-                        var result = []
-                        var rows = table.rows;
-                        var cells, t;
-
-                        // Iterate over rows
-                        for (var i=0, iLen=rows.length; i<iLen; i++) {
-                            cells = rows[i].cells;
-                            t = [];
-
-                            // Iterate over cells
-                            for (var j=0, jLen=cells.length; j<jLen; j++) {
-                            t.push(cells[j].textContent);
-                            }
-                            result.push(t);
-                        }
-                        return result; 
                 }
-
-                var con = tableToArray(table);
-                console.log(con);
-
-                var finalVal = '';
-
-                for (var i = 0; i < con.length; i++) {
-                    var value = con[i];
-
-                for (var j = 0; j < value.length; j++) {
-                    var innerValue =  value[j]===null?'':value[j].toString();
-                    var result = innerValue.replace(/"/g, '""');
-                    if (result.search(/("|,|\n)/g) >= 0)
-                        result = '"' + result + '"';
-                    if (j > 0)
-                        finalVal += ',';
-                    finalVal += result;
-                }
-
-                finalVal += '\n';
-            }
-
-            console.log(finalVal);
-
-            var pom = document.createElement('a');
-            pom.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(finalVal));
-            pom.setAttribute('download', 'Experiment_Result.csv');
-            pom.click();
-
-                } else if (nextTime < 60 ) {
-                    //nextTime = nextTime + 1;
-                    document.getElementById("ans0").value="";
-                    d3.select("svg").remove();
-                    
-                    drawChart();
-                    javascript:scrollTo(0,scroll);
-                    console.log(content);
-                }
-
-        }
     }
         
         
