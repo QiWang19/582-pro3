@@ -57,7 +57,7 @@
                 var bNum = 0;
                 var pNum = 0;
                 var sNum = 0;
-
+                var scroll = 380;
                 var sample = [1,2,3];
 		    //定义一个数组
                 
@@ -71,7 +71,7 @@
                 //s : [1,2,3];
                 drawChart();
                 //Barchart();
-                javascript:scrollTo(0,260);
+                javascript:scrollTo(0,scroll);
             } 
 
             function drawChart() {
@@ -333,11 +333,11 @@
                 var ans0 = document.getElementById("ans0").value;
                 ans.push(ans0);
 				console.log(ans);
-				document.getElementById("ans0").value="";
+				//document.getElementById("ans0").value="";
 				 
                 nextTime = nextTime + 1;
                 if (nextTime == 3) {
-                    javascript:scrollTo(0,410);
+                    javascript:scrollTo(0,scroll);
                     window.alert("Congrat, you have finished!");
 
                     var table=document.createElement("table");
@@ -379,7 +379,7 @@
                     var td2=tr2.insertCell(1);
                     var pos1 = 0;
                     for (var i = 0;i<content.length;i++){
-                    if (content[i][0]==cnt+1) pos1 = i;
+                    if (content[i][0]==cnt) pos1 = i;
                     }
                     td2.innerHTML=content[pos1][0];
                     var td3=tr2.insertCell(2);
@@ -441,7 +441,7 @@
 
                 } else if (nextTime < 3 ) {
                     //nextTime = nextTime + 1;
-                    
+                    document.getElementById("ans0").value="";
                     d3.select("svg").remove();
                     
                     drawChart();
