@@ -40,19 +40,10 @@
                     <button onclick="startFunction()">Start</button>
                     <br><br><br><br><br><br><br><br><br><br><br><br>
                 <p id="text1" align = "center"></p><br>
-                <!--<label for="ans0">Your answer:</label> 
-                    <input type="number" id="ans0" required = "required" > <br><br><br><br>-->
                 <p id = "ans" align = "center"></p><br>
                 <p id = "count" align = "center"></p>
             </fieldset>
         </form>
-        
-        <!--<fieldset style="text-align: center">    
-            
-            <button onclick="next.Next();">next</button>
-            
-        </fieldset>-->
-
         <script>
                 var nextTime = 0; 
                 var bNum = 0;
@@ -68,16 +59,16 @@
 				
 				var content = [];
 
-             function startFunction() {
-                //s : [1,2,3];
-                drawChart();
-                //Barchart();
-                javascript:scrollTo(0,scroll);
-            } 
+                function startFunction() {
+                    //s : [1,2,3];
+                    drawChart();
+                    //Barchart();
+                    javascript:scrollTo(0,scroll);
+                } 
 
-            function drawChart() {
-                var i = 0;
-                while (i != 1) {
+                function drawChart() {
+                    var i = 0;
+                    while (i != 1) {
                     var max = 100;
                     var r = parseInt(Math.random()*max);
                     //console.log(r);
@@ -96,414 +87,410 @@
                     } else if(bNum == 20 && pNum == 20 && sNum == 20){
                         i++;
                     }
-                }
-                
-            }
-
-            function Barchart() {
-                document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
-                                                            "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
-                                                            "<button onclick='next.Next();'>next</button>" +
-                                                             "<br><br><br><br>";
-
-                var bdataset = [];                        
-                for (var i = 0; i < 10; i++) {           
-                var newNumber = Math.random() * 100;  
-                bdataset.push(newNumber);             
-                }
-				
-				var mark = [0,1,2,3,4,5,6,7,8,9];
-                var bmarkorder = [];
-                for (var i = 0, l=2; i < l; i++) {
-                        var j = Math.floor(Math.random() * mark.length);
-                        bmarkorder[i]=mark[j];
-                        mark.splice(j, 1);
                     }
-                    //console.log(bmarkorder);
-
-               if (bdataset[bmarkorder[1]]>=bdataset[bmarkorder[0]]) bTrueRes = 100 * bdataset[bmarkorder[0]]/bdataset[bmarkorder[1]];
-				else bTrueRes = 100 * bdataset[bmarkorder[1]]/bdataset[bmarkorder[0]];
-				//console.log(bTrueRes);
-
-                content[nextTime] = new Array();
-				content[nextTime] = [nextTime, "Bar Chart", bTrueRes];
-                //console.log(content);
-
-                var width = 400;
-                var height = 400;
-                //在 body 里添加一个 SVG 画布	
-                var svg = d3.select("#text1")
-                    .append("svg")
-                    .attr("width", width)
-                    .attr("height", height);
-
-                //画布周边的空白
-                var padding = {left:30, right:30, top:20, bottom:20};
-                    
-                //x轴的比例尺
-                var xScale = d3.scale.ordinal()
-                    .domain(d3.range(bdataset.length))
-                    .rangeRoundBands([0, width - padding.left - padding.right]);
-
-                //y轴的比例尺
-                var yScale = d3.scale.linear()
-                    .domain([0,d3.max(bdataset)])
-                    .range([height - padding.top - padding.bottom, 0]);
-
-                //定义x轴
-                var xAxis = d3.svg.axis()
-                    .scale(xScale)
-                    .orient("bottom");
-                    
-                //定义y轴
-                var yAxis = d3.svg.axis()
-                    .scale(yScale)
-					.ticks(0)
-                    .orient("left");
-
-                //矩形之间的空白
-                var rectPadding = 4;
-
-                //添加矩形元素
-                var rects = svg.selectAll(".MyRect")
-                    .data(bdataset)
-                    .enter()
-                    .append("rect")
-                    .attr("class","MyRect")
-					.attr("stroke", "black")
-					.attr("stroke-width", 2)
-                    .attr("class","MyRect")
-					.attr("fill",'none')
-                    .attr("transform","translate(" + padding.left + "," + padding.top + ")")
-                    .attr("x", function(d,i){
-                        return xScale(i) + rectPadding/2;
-                    } )
-                    .attr("y",function(d){
-                        return yScale(d);
-                    })
-                    .attr("width", xScale.rangeBand() - rectPadding )
-                    .attr("height", function(d){
-                        return height - padding.top - padding.bottom - yScale(d);
-                    });
-					var p1 = padding.left+2+(xScale.rangeBand() - rectPadding +4)*bmarkorder[0]+(xScale.rangeBand() - rectPadding)/2;
-					var p2 = padding.left+2+(xScale.rangeBand() - rectPadding +4)*bmarkorder[1]+(xScale.rangeBand() - rectPadding)/2;
-                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", p1 ).attr("r", 5).attr("fill","black");
-                    svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", p2).attr("r", 5).attr("fill","black");
-
-                //添加x轴
-                svg.append("g")
-                    .attr("class","axis")
-                    .attr("transform","translate(" + padding.left + "," + (height - padding.bottom) + ")")
-                    .call(xAxis); 
-                    
-                //添加y轴
-                svg.append("g")
-                    .attr("class","axis")
-                    .attr("transform","translate(" + padding.left + "," + padding.top + ")")
-                    .call(yAxis);
-
-
-            }
-            function Piechart() {
-                document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
-                                                            "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
-                                                            "<button onclick='next.Next();'>next</button>" +
-                                                             "<br><br><br><br>";
-
-                var pdataset = [];                        
-                for (var i = 0; i < 10; i++) {           
-                var newNumber = Math.random() * 100;  
-                pdataset.push(newNumber);             
                 }
-				
-				var mark = [0,1,2,3,4,5,6,7,8,9];
-                var pmarkorder = [];
-                for (var i = 0, l=2; i < l; i++) {
-                        var j = Math.floor(Math.random() * mark.length);
-                        pmarkorder[i]=mark[j];
-                        mark.splice(j, 1);
+
+                function Barchart() {
+                    document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
+                                                                "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
+                                                                "<button onclick='next.Next();'>next</button>" +
+                                                                "<br><br><br><br>";
+
+                    var bdataset = [];                        
+                    for (var i = 0; i < 10; i++) {           
+                    var newNumber = Math.random() * 100;  
+                    bdataset.push(newNumber);             
                     }
+                    
+                    var mark = [0,1,2,3,4,5,6,7,8,9];
+                    var bmarkorder = [];
+                    for (var i = 0, l=2; i < l; i++) {
+                            var j = Math.floor(Math.random() * mark.length);
+                            bmarkorder[i]=mark[j];
+                            mark.splice(j, 1);
+                        }
+                        //console.log(bmarkorder);
+
+                    if (bdataset[bmarkorder[1]]>=bdataset[bmarkorder[0]]) bTrueRes = 100 * bdataset[bmarkorder[0]]/bdataset[bmarkorder[1]];
+                        else bTrueRes = 100 * bdataset[bmarkorder[1]]/bdataset[bmarkorder[0]];
+                    //console.log(bTrueRes);
+
+                    content[nextTime] = new Array();
+                    content[nextTime] = [nextTime, "Bar Chart", bTrueRes];
+                    //console.log(content);
+
+                    var width = 400;
+                    var height = 400;
+                    //在 body 里添加一个 SVG 画布	
+                    var svg = d3.select("#text1")
+                        .append("svg")
+                        .attr("width", width)
+                        .attr("height", height);
+
+                    //画布周边的空白
+                    var padding = {left:30, right:30, top:20, bottom:20};
+                        
+                    //x轴的比例尺
+                    var xScale = d3.scale.ordinal()
+                        .domain(d3.range(bdataset.length))
+                        .rangeRoundBands([0, width - padding.left - padding.right]);
+
+                    //y轴的比例尺
+                    var yScale = d3.scale.linear()
+                        .domain([0,d3.max(bdataset)])
+                        .range([height - padding.top - padding.bottom, 0]);
+
+                    //定义x轴
+                    var xAxis = d3.svg.axis()
+                        .scale(xScale)
+                        .orient("bottom");
+                        
+                    //定义y轴
+                    var yAxis = d3.svg.axis()
+                        .scale(yScale)
+                        .ticks(0)
+                        .orient("left");
+
+                    //矩形之间的空白
+                    var rectPadding = 4;
+
+                    //添加矩形元素
+                    var rects = svg.selectAll(".MyRect")
+                        .data(bdataset)
+                        .enter()
+                        .append("rect")
+                        .attr("class","MyRect")
+                        .attr("stroke", "black")
+                        .attr("stroke-width", 2)
+                        .attr("class","MyRect")
+                        .attr("fill",'none')
+                        .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+                        .attr("x", function(d,i){
+                            return xScale(i) + rectPadding/2;
+                        } )
+                        .attr("y",function(d){
+                            return yScale(d);
+                        })
+                        .attr("width", xScale.rangeBand() - rectPadding )
+                        .attr("height", function(d){
+                            return height - padding.top - padding.bottom - yScale(d);
+                        });
+                        var p1 = padding.left+2+(xScale.rangeBand() - rectPadding +4)*bmarkorder[0]+(xScale.rangeBand() - rectPadding)/2;
+                        var p2 = padding.left+2+(xScale.rangeBand() - rectPadding +4)*bmarkorder[1]+(xScale.rangeBand() - rectPadding)/2;
+                        svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", p1 ).attr("r", 5).attr("fill","black");
+                        svg.append("circle").attr("cy",height-padding.bottom-20).attr("cx", p2).attr("r", 5).attr("fill","black");
+
+                        //添加x轴
+                        svg.append("g")
+                            .attr("class","axis")
+                            .attr("transform","translate(" + padding.left + "," + (height - padding.bottom) + ")")
+                            .call(xAxis); 
+                        
+                        //添加y轴
+                        svg.append("g")
+                            .attr("class","axis")
+                            .attr("transform","translate(" + padding.left + "," + padding.top + ")")
+                            .call(yAxis);
+
+
+                }
+                function Piechart() {
+                    document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
+                                                                "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
+                                                                "<button onclick='next.Next();'>next</button>" +
+                                                                "<br><br><br><br>";
+                    var pdataset = [];                        
+                    for (var i = 0; i < 10; i++) {           
+                    var newNumber = Math.random() * 100;  
+                    pdataset.push(newNumber);             
+                    }
+                    
+                    var mark = [0,1,2,3,4,5,6,7,8,9];
+                    var pmarkorder = [];
+                    for (var i = 0, l=2; i < l; i++) {
+                            var j = Math.floor(Math.random() * mark.length);
+                            pmarkorder[i]=mark[j];
+                            mark.splice(j, 1);
+                        }
+                        //console.log(pmarkorder);
+
+                    if (pdataset[pmarkorder[1]]>=pdataset[pmarkorder[0]]) pTrueRes = 100 * pdataset[pmarkorder[0]]/pdataset[pmarkorder[1]];
+                    else pTrueRes = 100 * pdataset[pmarkorder[1]]/pdataset[pmarkorder[0]];
+                    //console.log(pTrueRes);
+                    
+                    content[nextTime] = new Array();
+                    content[nextTime] = [nextTime, "Pie Chart", pTrueRes];
+                    
+
+                    // PIE CHART 
+                    //定义一个数组
+                    var width = 400;
+                    var height = 400;
+                    var svg1 = d3.select("#text1")
+                                .append("svg")
+                                .attr("width", 400)
+                                .attr("height", 400);
+                    
+                    var pie = d3.layout.pie();
+
+                    var piedata = pie(pdataset);
+                    
+                    var outerRadius = 150;	//外半径
+                    var innerRadius = 0;	//内半径，为0则中间没有空白
+
+                    var arc = d3.svg.arc()	//弧生成器
+                                .innerRadius(innerRadius)	//设置内半径
+                                .outerRadius(outerRadius);	//设置外半径
+                    
+                    var labelArc = d3.svg.arc()
+                                .outerRadius(outerRadius - 5)
+                                .innerRadius(outerRadius - 20);
+                    
+                    var color = d3.scale.category10();
                     //console.log(pmarkorder);
-
-                if (pdataset[pmarkorder[1]]>=pdataset[pmarkorder[0]]) pTrueRes = 100 * pdataset[pmarkorder[0]]/pdataset[pmarkorder[1]];
-				else pTrueRes = 100 * pdataset[pmarkorder[1]]/pdataset[pmarkorder[0]];
-				//console.log(pTrueRes);
-				
-                content[nextTime] = new Array();
-                content[nextTime] = [nextTime, "Pie Chart", pTrueRes];
-				
-
-                // PIE CHART 
-                //定义一个数组
-                var width = 400;
-                var height = 400;
-                var svg1 = d3.select("#text1")
-                            .append("svg")
-                            .attr("width", 400)
-                            .attr("height", 400);
-                
-                var pie = d3.layout.pie();
-
-                var piedata = pie(pdataset);
-                
-                var outerRadius = 150;	//外半径
-                var innerRadius = 0;	//内半径，为0则中间没有空白
-
-                var arc = d3.svg.arc()	//弧生成器
-                            .innerRadius(innerRadius)	//设置内半径
-                            .outerRadius(outerRadius);	//设置外半径
-				
-				var labelArc = d3.svg.arc()
-							.outerRadius(outerRadius - 5)
-							.innerRadius(outerRadius - 20);
-                
-                var color = d3.scale.category10();
-				//console.log(pmarkorder);
-                var arcs = svg1.selectAll("g")
-                            .data(piedata)
-                            .enter()
-                            .append("g")
-                            .attr("transform","translate("+ (width/2) +","+ (width/2) +")");
-                            
-                arcs.append("path")
-                    .attr("stroke", "grey")
-					.attr("stroke-width", 2)
-					.attr("fill", 'none')
-                    .attr("d",function(d){
-                        return arc(d);
-                    });
-					
-				arcs.append("circle")
-					.attr("transform", function(d) { 
-						return "translate(" + labelArc.centroid(d)[0] + "," + labelArc.centroid(d)[1] + ")"; })
-					.attr("r", function(d,i) { 
-						if (i == pmarkorder[1]|| i == pmarkorder[0]) return 5;
-						else return 0;
-					})
-					.attr("fill", 'black');
-		
-                    //console.log(pdataset);
-                    //console.log(piedata);     
-
-            }
-            function Scatterchart() {
-                 document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
-                                                            "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
-                                                            "<button onclick='next.Next();'>next</button>" +
-                                                             "<br><br><br><br>";
-                var sdataset = [];                        
-                for (var i = 0; i < 10; i++) {           
-                var newNumber = Math.random() * 100;  
-                sdataset.push(newNumber);             
-                }
-				
-				var mark = [0,1,2,3,4,5,6,7,8,9];
-                var smarkorder = [];
-                for (var i = 0, l=2; i < l; i++) {
-                        var j = Math.floor(Math.random() * mark.length);
-                        smarkorder[i]=mark[j];
-                        mark.splice(j, 1);
-                    }
-                //console.log(smarkorder);
-
-				if (sdataset[smarkorder[1]]>=sdataset[smarkorder[0]]) sTrueRes = 100 * sdataset[smarkorder[0]]/sdataset[smarkorder[1]];
-				else sTrueRes = 100 * sdataset[smarkorder[1]]/sdataset[smarkorder[0]];
-				//console.log(sTrueRes);
-
-                content[nextTime] = new Array();
-				content[nextTime] = [nextTime, "Scatter Plot", sTrueRes];
-
-                var width = 600, height = 400;
-                    var padding = { top: 50, right: 50, bottom: 50, left: 50 };
-                    var svg2 = d3.select("#text1")
-					.append("svg")
-					.attr("width", width)
-					.attr("height", height);
-                    
-				
-						var xScale = d3.scale.linear()
-								.domain([0, 9])
-								.range([0, width - padding.left - padding.right]);
-						var yScale = d3.scale.linear()
-								.domain([0, 100])
-								.range([height - padding.top - padding.bottom, 0]);
-						var xAxis = d3.svg.axis()
-								.scale(xScale)
-								.ticks(10)
-								.orient('bottom');
-						var yAxis = d3.svg.axis()
-								.scale(yScale)
-								.ticks(0)
-								.orient('left');
-
-						svg2.append('g')
-								.attr('class', 'axis')
-								.attr('transform', 'translate(50,' + (height - 50) + ')')
-								.call(xAxis);
-						
-						svg2.append('g')
-								.attr('class', 'axis')
-								.attr('transform', 'translate(50,50)')
-								.call(yAxis);
-						
-						
-						svg2.selectAll('.bubble')
-								.data(sdataset)
-								.enter()
-								.append('circle')
-								.attr('class', 'bubble')
-								.attr("stroke", "black")
-								.attr("stroke-width", 2)
-								.attr('class', 'bubble')
-								.attr('fill','none')
-								.attr('cx', function(d,i) {
-									return xScale(i)+50;
-								})
-								.attr('cy', function(d) {
-									return yScale(d)+50;
-								})
-								.attr('r', 10);
-						var p1x = padding.left+xScale(smarkorder[0]);
-						var p2x = padding.left+xScale(smarkorder[1]);
-						var p1y = padding.top+yScale(sdataset[smarkorder[0]]);
-						var p2y = padding.top+yScale(sdataset[smarkorder[1]]);
-						svg2.append("circle").attr("cy",p1y).attr("cx", p1x ).attr("r", 5).attr("fill","black");
-						svg2.append("circle").attr("cy",p2y).attr("cx", p2x).attr("r", 5).attr("fill","black");
-
-            }
-       
-		var ans=[];
-        var next = {
-            Next: function() {
-                document.getElementById("count").innerHTML = (nextTime + 1) + "/ 60";
-				var pID = document.getElementById("pID").value;
-                var ans0 = document.getElementById("ans0").value;
-                if (ans0 < 0 || ans0 > 100 ||ans0 == "") {
-                    document.getElementById("ans0").value = "";
-                } else {
-                                    ans.push(ans0);
-                                    console.log(ans);
-                                    //document.getElementById("ans0").value="";
-                                    
-                                    nextTime = nextTime + 1;
-                                    if (nextTime == 60) {
-                                        javascript:scrollTo(0,scroll);
-                                        window.alert("Congrat, you have finished!");
-                                    
-                                        var table=document.createElement("table");
-                                        document.body.appendChild(table);
-                                        table.border=1;
-                                        table.width=300;
-                                        table.align = "center";
-                                    
-                                        table.createCaption().innerHTML="Experiment Result";
-                                        
-                                        var thead=table.createTHead();
-                                        var tr1=thead.insertRow(0);
-                                    
-                                        
-                                        var th1=document.createElement("th");
-                                        tr1.appendChild(th1);
-                                        th1.innerHTML="Partipant ID";
-                                        var th2=document.createElement("th");
-                                        tr1.appendChild(th2);
-                                        th2.innerHTML="TrialNum";
-                                        var th3=document.createElement("th");
-                                        tr1.appendChild(th3);
-                                        th3.innerHTML="Vis";
-                                        var th4=document.createElement("th");
-                                        tr1.appendChild(th4);
-                                        th4.innerHTML="TruePercent";
-                                        var th5=document.createElement("th");
-                                        tr1.appendChild(th5);
-                                        th5.innerHTML="ReportedPercent";
-                                        
-                                        var tbody=document.createElement("tbody");
-                                        table.appendChild(tbody);
-                                    
-                                        var cnt = 0;
-                                        while(cnt<ans.length){
-                                        var tr2=tbody.insertRow(cnt);
-                                        var td1=tr2.insertCell(0);
-                                        td1.innerHTML=pID;
-                                        var td2=tr2.insertCell(1);
-                                        var pos1 = 0;
-                                        for (var i = 0;i<content.length;i++){
-                                        if (content[i][0]==cnt) pos1 = i;
-                                        }
-                                        td2.innerHTML=content[pos1][0];
-                                        var td3=tr2.insertCell(2);
-                                        td3.innerHTML=content[pos1][1];
-                                        var td4=tr2.insertCell(3);
-                                        td4.innerHTML=content[pos1][2];
-                                        var td5=tr2.insertCell(4);
-                                        td5.innerHTML=ans[cnt];
-                                        cnt++;
-                                        }
+                    var arcs = svg1.selectAll("g")
+                                .data(piedata)
+                                .enter()
+                                .append("g")
+                                .attr("transform","translate("+ (width/2) +","+ (width/2) +")");
                                 
+                    arcs.append("path")
+                        .attr("stroke", "grey")
+                        .attr("stroke-width", 2)
+                        .attr("fill", 'none')
+                        .attr("d",function(d){
+                            return arc(d);
+                        });
+                        
+                    arcs.append("circle")
+                        .attr("transform", function(d) { 
+                            return "translate(" + labelArc.centroid(d)[0] + "," + labelArc.centroid(d)[1] + ")"; })
+                        .attr("r", function(d,i) { 
+                            if (i == pmarkorder[1]|| i == pmarkorder[0]) return 5;
+                            else return 0;
+                        })
+                        .attr("fill", 'black');
+            
+                        //console.log(pdataset);
+                        //console.log(piedata);     
 
-                                        function tableToArray(table) {
-                                            var result = []
-                                            var rows = table.rows;
-                                            var cells, t;
-
-                                            // Iterate over rows
-                                            for (var i=0, iLen=rows.length; i<iLen; i++) {
-                                                cells = rows[i].cells;
-                                                t = [];
-
-                                                // Iterate over cells
-                                                for (var j=0, jLen=cells.length; j<jLen; j++) {
-                                                t.push(cells[j].textContent);
-                                                }
-                                                result.push(t);
-                                            }
-                                            return result; 
-                                    }
-
-                                    var con = tableToArray(table);
-                                    console.log(con);
-
-                                    var finalVal = '';
-
-                                    for (var i = 0; i < con.length; i++) {
-                                        var value = con[i];
-
-                                    for (var j = 0; j < value.length; j++) {
-                                        var innerValue =  value[j]===null?'':value[j].toString();
-                                        var result = innerValue.replace(/"/g, '""');
-                                        if (result.search(/("|,|\n)/g) >= 0)
-                                            result = '"' + result + '"';
-                                        if (j > 0)
-                                            finalVal += ',';
-                                        finalVal += result;
-                                    }
-
-                                    finalVal += '\n';
-                                }
-
-                                console.log(finalVal);
-
-                                var pom = document.createElement('a');
-                                pom.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(finalVal));
-                                pom.setAttribute('download', 'Experiment_Result.csv');
-                                pom.click();
-
-                                    } else if (nextTime < 60 ) {
-                                        //nextTime = nextTime + 1;
-                                        document.getElementById("ans0").value="";
-                                        
-                                        d3.select("svg").remove();
-                                        
-                                        drawChart();
-                                        javascript:scrollTo(0,scroll);
-                                        console.log(content);
-                                    }
-                    }
                 }
-    }
-        
-        
+                function Scatterchart() {
+                    document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
+                                                                "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
+                                                                "<button onclick='next.Next();'>next</button>" +
+                                                                "<br><br><br><br>";
+                    var sdataset = [];                        
+                    for (var i = 0; i < 10; i++) {           
+                    var newNumber = Math.random() * 100;  
+                    sdataset.push(newNumber);             
+                    }
+                    
+                    var mark = [0,1,2,3,4,5,6,7,8,9];
+                    var smarkorder = [];
+                    for (var i = 0, l=2; i < l; i++) {
+                            var j = Math.floor(Math.random() * mark.length);
+                            smarkorder[i]=mark[j];
+                            mark.splice(j, 1);
+                        }
+                    //console.log(smarkorder);
+
+                    if (sdataset[smarkorder[1]]>=sdataset[smarkorder[0]]) sTrueRes = 100 * sdataset[smarkorder[0]]/sdataset[smarkorder[1]];
+                    else sTrueRes = 100 * sdataset[smarkorder[1]]/sdataset[smarkorder[0]];
+                    //console.log(sTrueRes);
+
+                    content[nextTime] = new Array();
+                    content[nextTime] = [nextTime, "Scatter Plot", sTrueRes];
+
+                    var width = 600, height = 400;
+                        var padding = { top: 50, right: 50, bottom: 50, left: 50 };
+                        var svg2 = d3.select("#text1")
+                        .append("svg")
+                        .attr("width", width)
+                        .attr("height", height);
+                        
+                    
+                            var xScale = d3.scale.linear()
+                                    .domain([0, 9])
+                                    .range([0, width - padding.left - padding.right]);
+                            var yScale = d3.scale.linear()
+                                    .domain([0, 100])
+                                    .range([height - padding.top - padding.bottom, 0]);
+                            var xAxis = d3.svg.axis()
+                                    .scale(xScale)
+                                    .ticks(10)
+                                    .orient('bottom');
+                            var yAxis = d3.svg.axis()
+                                    .scale(yScale)
+                                    .ticks(0)
+                                    .orient('left');
+
+                            svg2.append('g')
+                                    .attr('class', 'axis')
+                                    .attr('transform', 'translate(50,' + (height - 50) + ')')
+                                    .call(xAxis);
+                            
+                            svg2.append('g')
+                                    .attr('class', 'axis')
+                                    .attr('transform', 'translate(50,50)')
+                                    .call(yAxis);
+                            
+                            
+                            svg2.selectAll('.bubble')
+                                    .data(sdataset)
+                                    .enter()
+                                    .append('circle')
+                                    .attr('class', 'bubble')
+                                    .attr("stroke", "black")
+                                    .attr("stroke-width", 2)
+                                    .attr('class', 'bubble')
+                                    .attr('fill','none')
+                                    .attr('cx', function(d,i) {
+                                        return xScale(i)+50;
+                                    })
+                                    .attr('cy', function(d) {
+                                        return yScale(d)+50;
+                                    })
+                                    .attr('r', 10);
+                            var p1x = padding.left+xScale(smarkorder[0]);
+                            var p2x = padding.left+xScale(smarkorder[1]);
+                            var p1y = padding.top+yScale(sdataset[smarkorder[0]]);
+                            var p2y = padding.top+yScale(sdataset[smarkorder[1]]);
+                            svg2.append("circle").attr("cy",p1y).attr("cx", p1x ).attr("r", 5).attr("fill","black");
+                            svg2.append("circle").attr("cy",p2y).attr("cx", p2x).attr("r", 5).attr("fill","black");
+
+                }
+    
+                var ans=[];
+                var next = {
+                    Next: function() {
+                        document.getElementById("count").innerHTML = (nextTime + 1) + "/ 60";
+                        var pID = document.getElementById("pID").value;
+                        var ans0 = document.getElementById("ans0").value;
+                        if (ans0 < 0 || ans0 > 100 ||ans0 == "") {
+                            document.getElementById("ans0").value = "";
+                        } else {
+                                            ans.push(ans0);
+                                            console.log(ans);
+                                            //document.getElementById("ans0").value="";
+                                            
+                                            nextTime = nextTime + 1;
+                                            if (nextTime == 60) {
+                                                javascript:scrollTo(0,scroll);
+                                                window.alert("Congrat, you have finished!");
+                                            
+                                                var table=document.createElement("table");
+                                                document.body.appendChild(table);
+                                                table.border=1;
+                                                table.width=300;
+                                                table.align = "center";
+                                            
+                                                table.createCaption().innerHTML="Experiment Result";
+                                                
+                                                var thead=table.createTHead();
+                                                var tr1=thead.insertRow(0);
+                                            
+                                                
+                                                var th1=document.createElement("th");
+                                                tr1.appendChild(th1);
+                                                th1.innerHTML="Partipant ID";
+                                                var th2=document.createElement("th");
+                                                tr1.appendChild(th2);
+                                                th2.innerHTML="TrialNum";
+                                                var th3=document.createElement("th");
+                                                tr1.appendChild(th3);
+                                                th3.innerHTML="Vis";
+                                                var th4=document.createElement("th");
+                                                tr1.appendChild(th4);
+                                                th4.innerHTML="TruePercent";
+                                                var th5=document.createElement("th");
+                                                tr1.appendChild(th5);
+                                                th5.innerHTML="ReportedPercent";
+                                                
+                                                var tbody=document.createElement("tbody");
+                                                table.appendChild(tbody);
+                                            
+                                                var cnt = 0;
+                                                while(cnt<ans.length){
+                                                var tr2=tbody.insertRow(cnt);
+                                                var td1=tr2.insertCell(0);
+                                                td1.innerHTML=pID;
+                                                var td2=tr2.insertCell(1);
+                                                var pos1 = 0;
+                                                for (var i = 0;i<content.length;i++){
+                                                if (content[i][0]==cnt) pos1 = i;
+                                                }
+                                                td2.innerHTML=content[pos1][0];
+                                                var td3=tr2.insertCell(2);
+                                                td3.innerHTML=content[pos1][1];
+                                                var td4=tr2.insertCell(3);
+                                                td4.innerHTML=content[pos1][2];
+                                                var td5=tr2.insertCell(4);
+                                                td5.innerHTML=ans[cnt];
+                                                cnt++;
+                                                }
+                                        
+
+                                                function tableToArray(table) {
+                                                    var result = []
+                                                    var rows = table.rows;
+                                                    var cells, t;
+
+                                                    // Iterate over rows
+                                                    for (var i=0, iLen=rows.length; i<iLen; i++) {
+                                                        cells = rows[i].cells;
+                                                        t = [];
+
+                                                        // Iterate over cells
+                                                        for (var j=0, jLen=cells.length; j<jLen; j++) {
+                                                        t.push(cells[j].textContent);
+                                                        }
+                                                        result.push(t);
+                                                    }
+                                                    return result; 
+                                            }
+
+                                            var con = tableToArray(table);
+                                            console.log(con);
+
+                                            var finalVal = '';
+
+                                            for (var i = 0; i < con.length; i++) {
+                                                var value = con[i];
+
+                                            for (var j = 0; j < value.length; j++) {
+                                                var innerValue =  value[j]===null?'':value[j].toString();
+                                                var result = innerValue.replace(/"/g, '""');
+                                                if (result.search(/("|,|\n)/g) >= 0)
+                                                    result = '"' + result + '"';
+                                                if (j > 0)
+                                                    finalVal += ',';
+                                                finalVal += result;
+                                            }
+
+                                            finalVal += '\n';
+                                        }
+
+                                        console.log(finalVal);
+
+                                        var pom = document.createElement('a');
+                                        pom.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(finalVal));
+                                        pom.setAttribute('download', 'Experiment_Result.csv');
+                                        pom.click();
+
+                                            } else if (nextTime < 60 ) {
+                                                //nextTime = nextTime + 1;
+                                                document.getElementById("ans0").value="";
+                                                
+                                                d3.select("svg").remove();
+                                                
+                                                drawChart();
+                                                javascript:scrollTo(0,scroll);
+                                                console.log(content);
+                                            }
+                            }
+                        }
+                }
         </script>
         <br>
         
