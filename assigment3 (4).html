@@ -6,7 +6,6 @@
                 background: white;
                 border: white
             }
-			
             .container {
                 margin: 30px auto;
                 width: 600px;
@@ -22,7 +21,7 @@
                 fill-opacity: 1;
             }
         </style>
-        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> 
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script> 
         
     </head>
     <body>
@@ -44,6 +43,7 @@
                 <p id = "count" align = "center"></p>
             </fieldset>
         </form>
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script> 
         <script>
                 var nextTime = 0; 
                 var bNum = 0;
@@ -92,7 +92,7 @@
 
                 function Barchart() {
                     document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
-                                                                "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
+                                                                "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return false;' >" +
                                                                 "<button onclick='next.Next();'>next</button>" +
                                                                 "<br><br><br><br>";
 
@@ -196,7 +196,7 @@
                 }
                 function Piechart() {
                     document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
-                                                                "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
+                                                                "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return false;' >" +
                                                                 "<button onclick='next.Next();'>next</button>" +
                                                                 "<br><br><br><br>";
                     var pdataset = [];                        
@@ -277,7 +277,7 @@
                 }
                 function Scatterchart() {
                     document.getElementById('ans').innerHTML="<label for='ans0' >Your answer:</label>" +
-                                                                "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return next.Next();' >" +
+                                                                "<input type='number' id='ans0' required = 'required' onkeydown='if(event.keyCode==13) return false;' >" +
                                                                 "<button onclick='next.Next();'>next</button>" +
                                                                 "<br><br><br><br>";
                     var sdataset = [];                        
@@ -372,13 +372,13 @@
                         } else {
                                             ans.push(ans0);
                                             console.log(ans);
-                                            //document.getElementById("ans0").value="";
+                                            document.getElementById("ans0").value="";
                                             
                                             nextTime = nextTime + 1;
-                                            if (nextTime == 60) {
+                                            if (nextTime == 10) {
                                                 javascript:scrollTo(0,scroll);
                                                 window.alert("Congrat, you have finished!");
-                                            
+                                                
                                                 var table=document.createElement("table");
                                                 document.body.appendChild(table);
                                                 table.border=1;
@@ -472,15 +472,15 @@
                                         }
 
                                         console.log(finalVal);
-
+                                        
                                         var pom = document.createElement('a');
                                         pom.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(finalVal));
                                         pom.setAttribute('download', 'Experiment_Result.csv');
                                         pom.click();
 
-                                            } else if (nextTime < 60 ) {
+                                            } else if (nextTime < 10 ) {
                                                 //nextTime = nextTime + 1;
-                                                document.getElementById("ans0").value="";
+                                                //document.getElementById("ans0").value="";
                                                 
                                                 d3.select("svg").remove();
                                                 
