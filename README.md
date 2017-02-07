@@ -8,18 +8,18 @@ Figure 1: ![](img/experiment-0.png)
   
 Figure 2: ![](img/resultPage.png)   
   
-## Bar Chart (mean error: 1.433349)  
-In our experiment, the bar chart achieves the best performance with the minimum mean error: 1.433349. An example bar chart shows below (refer to figure 3).  
+## Bar Chart (mean error: 4.421512)  
+In our experiment, the bar chart achieves the best performance with the minimum mean error: 4.421512. An example bar chart shows below (refer to figure 3).  
   
 Figure 3: ![](img/experiment-2.png)  
   
-## Scatter Plot (mean error: 1.491946)  
-In our experiment, the bar chart achieves the second best performance with the mean error: 1.491946. An example scatter plot shows below (refer to figure 4).  
+## Scatter Plot (mean error: 4.47892)  
+In our experiment, the bar chart achieves the second best performance with the mean error: 4.47892. An example scatter plot shows below (refer to figure 4).  
   
 Figure 4: ![](img/experiment-3.png) 
   
-## Pie Chart (mean error: 2.143553)
-In our experiment, the bar chart achieves the worst performance with the maximum mean error: 2.143553. An example pie chart shows below (refer to figure 5).  
+## Pie Chart (mean error:  5.141379)
+In our experiment, the bar chart achieves the worst performance with the maximum mean error: 5.141379. An example pie chart shows below (refer to figure 5).  
   
 Figure 5: ![](img/experiment-1.png)  
   
