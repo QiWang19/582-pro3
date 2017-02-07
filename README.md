@@ -1,7 +1,7 @@
 # 582-pro3 --- Yuchen Liu & Qi Wang
 
 ## Experiment Interface  
-The working link to the experiment:   
+The working link to the experiment: https://qiwang19.github.io/03-Experiment/index.html  <br>  
   
 Firstly, user choose an id and type into the box and read the instruction (refer to figure1). After clicking the start, the experiment start. The screen will show one of the three kinds of charts: bar chart, pie chart and scatter plot, and an input box. In order to control variables, we use the same color of stroke (black) and width of stroke (2) to draw all the chart. Inside the chart, there is no filling color, and the mark for all three charts is the same small black dot. User should fill in the box with a valid number (0-100) otherwise, the website remove it and ask you to input again. Then user should click “next” button to go to next page. At last page, after user click “next”, an alert message ”congrat, you have finished.” will appear, a table that contains all the experiment record of this user will appears at the bottom and a .csv file that contains this table will be downloaded automatically (refer to figure 2).  
   
