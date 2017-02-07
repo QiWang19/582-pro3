@@ -33,15 +33,15 @@ Figure 6: ![](img/bootstrap.png)
 From this box plot, we can get the ranking of charts. The x axis, from best performance to worst performance, has bar chart, scatter plot and pie chart. The  value of y axis of red lines in each box indicates lower and upper bounds of 0.95 confidence intervals of the log error. The red dot stands for the value of mean. And the bold line stands for the median of log error.  
    
 ## Technical Achievements 
-*Learnt how to use D3 to draw different kinds of chart with randomly generated data set, and add random mark for each chart.  
-*Learnt how to use R to generate box plot to show the Bootstrapped 95\% confidence intervals.  
-*Learnt the concept of Latin Square.  
+Learnt how to use D3 to draw different kinds of chart with randomly generated data set, and add random mark for each chart.  
+Learnt how to use R to generate box plot to show the Bootstrapped 95\% confidence intervals.  
+Learnt the concept of Latin Square.  
     
 ## Design Achievements   
-*Learnt how to control the variable.  
-*Learnt how to add the check for user’s input.  
-*Learnt how to download html file as .csv file.  
-*As for Latin Square, we use it to ensure that the 60 trials are counterbalanced. a Latin square consists of n sets of the numbers 1 to n arranged in such a way that no orthogonal (row or column) contains the same number twice. There are total 12 latin squares in order of three, we choose the below 7 latin squares (refer to figure 7), because they contain all the combinations of 1,2 and 3, In our experiment, 1 for pie chart, 2 for scatter plot and 3 for bar chart, then we read them row by row to make a array of size 60 (abandon the last row), and use it as the order of chart.  
+Learnt how to control the variable.  
+Learnt how to add the check for user’s input.  
+Learnt how to download html file as .csv file.  
+As for Latin Square, we use it to ensure that the 60 trials are counterbalanced. a Latin square consists of n sets of the numbers 1 to n arranged in such a way that no orthogonal (row or column) contains the same number twice. There are total 12 latin squares in order of three, we choose the below 7 latin squares (refer to figure 7), because they contain all the combinations of 1,2 and 3, In our experiment, 1 for pie chart, 2 for scatter plot and 3 for bar chart, then we read them row by row to make a array of size 60 (abandon the last row), and use it as the order of chart.  
 
 Figure 7: ![](img/Latin_Square.png)  
   
