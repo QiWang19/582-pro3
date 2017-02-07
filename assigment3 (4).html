@@ -58,6 +58,16 @@
 				var sTrueRes = 0;
 				
 				var content = [];
+				var chartNum = 0;
+				var index = [1,2,3,2,3,1,3,1,2,
+                3,2,1,1,3,2,2,1,3,
+                1,2,3,3,1,2,2,3,1,
+                1,3,2,2,1,3,3,2,1,
+                1,3,2,3,2,1,2,1,3,
+                2,1,3,1,3,2,3,2,1,
+                2,1,3,3,2,1,1,3,2,
+                ]
+
 
 				function startFunction() {
 					var pId = document.getElementById("pID").value;
@@ -68,27 +78,38 @@
 				} 
 
 				function drawChart() {
-					var i = 0;
-					while (i != 1) {
-					var max = 100;
-					var r = parseInt(Math.random()*max);
-					//console.log(r);
-					if (r % 3 == 0 && bNum <20) {
-						Barchart();
-						i++;
-						bNum++;
-					} else if (r % 3 == 1 && pNum < 20) {
-						Piechart();
-						i++;
-						pNum++;
-					} else if (r % 3 == 2 && sNum < 20) {
-						Scatterchart();
-						i++;
-						sNum++;
-					} else if(bNum == 20 && pNum == 20 && sNum == 20){
-						i++;
-					}
-					}
+					// var i = 0;
+					// while (i != 1) {
+					// var max = 100;
+					// var r = parseInt(Math.random()*max);
+					// //console.log(r);
+					// if (r % 3 == 0 && bNum <20) {
+					// 	Barchart();
+					// 	i++;
+					// 	bNum++;
+					// } else if (r % 3 == 1 && pNum < 20) {
+					// 	Piechart();
+					// 	i++;
+					// 	pNum++;
+					// } else if (r % 3 == 2 && sNum < 20) {
+					// 	Scatterchart();
+					// 	i++;
+					// 	sNum++;
+					// } else if(bNum == 20 && pNum == 20 && sNum == 20){
+					// 	i++;
+					// }
+					// }
+						var r = index[chartNum];
+						if (r % 3 == 0) {
+							Barchart();
+							chartNum++;
+						} else if (r % 3 == 1) {
+							Piechart();
+							chartNum++;
+						} else if (r % 3 == 2) {
+							Scatterchart();
+							chartNum++
+						}
 				}
 
 				function Barchart() {
