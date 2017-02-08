@@ -5,7 +5,7 @@ In this project, we separated project to two main parts: 1. using D3.js to gener
   
 Yuchen firstly took charge of the first part (D3 part), after finished several drafts, Yuchen Sent it to Qi to optimize them one step further. Then Yuchen started to optimize the website design that Qi sent. At last, for the Latin square part, Yuchen and Qi discussed and implemented together.  
   
-Qi firstly took charge of the second part (web design part), after finished several drafts, Qi sent it to Yuchen to optimize them one step further. Then Qi started to optimize the D3.js part that Yuchen Sent. At last, for the Latin square part, Qi and Yuchen discussed and implemented together.  
+Qi firstly took charge of the second part (web design part), after finished several drafts, Qi sent it to Yuchen to optimize them one step further. Then Qi started to optimize the D3.js part that Yuchen sent. At last, for the Latin square part, Qi and Yuchen discussed and implemented together.  
 
 ## Experiment Interface  
 The working link to the experiment: https://qiwang19.github.io/03-Experiment/index.html  <br>  
